@@ -1,3 +1,4 @@
+'use client'
 import { Menu } from '@mui/icons-material'
 import {
   AppBar,
@@ -9,15 +10,20 @@ import {
 } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { HeaderDrawer } from './HeaderDrawer'
+import { useState } from 'react'
 
 export function Header() {
   const pageTitle = 'Painel B7Delivery'
   const router = useRouter()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   function handleLogout() {
     router.push('/login')
   }
-  function handleDrawerToggle() {}
+  function handleDrawerToggle() {
+    setIsDrawerOpen(!isDrawerOpen)
+  }
   return (
     <>
       <AppBar>
@@ -55,6 +61,14 @@ export function Header() {
           </Box>
         </Toolbar>
       </AppBar>
+      <Box component="nav">
+        <HeaderDrawer
+          open={isDrawerOpen}
+          onClose={handleDrawerToggle}
+          title={pageTitle}
+          onLogout={handleLogout}
+        />
+      </Box>
     </>
   )
 }
