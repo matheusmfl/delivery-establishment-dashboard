@@ -26,7 +26,7 @@ export function Header() {
   }
   return (
     <>
-      <AppBar>
+      <AppBar component="nav" position="relative">
         <Toolbar>
           <IconButton
             color="inherit"
