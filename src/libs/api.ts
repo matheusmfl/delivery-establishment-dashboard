@@ -1,3 +1,5 @@
+import { Order } from '@/types/order'
+
 export const api = {
   login: async (
     email: string,
@@ -32,7 +34,18 @@ export const api = {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({ error: '' })
-      }, 100)
+      }, 1000)
+    })
+  },
+  getOrders: async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const orders: Order[] = []
+
+        // TODO: Montar array de pedidos
+
+        resolve(orders)
+      }, 1000)
     })
   },
 }
