@@ -1,6 +1,7 @@
 'use client'
 import { OrderItem } from '@/components/OrderItem'
 import { api } from '@/libs/api'
+import { OrderStatus } from '@/types/OrderStatus'
 import { Order } from '@/types/order'
 import { Refresh, Search } from '@mui/icons-material'
 import {
@@ -29,11 +30,17 @@ const Page = () => {
     setLoading(false)
   }
 
+  const handleChangeStatus = async (id: number, newStatus: OrderStatus) => {
+    await api.changeOrderStatus(id, newStatus)
+    getOrders()
+  }
+
   useEffect(() => {
     getOrders()
   }, [])
   function handleSearchKey() {}
   function handleSearchInput() {}
+
   return (
     <Box sx={{ my: 3 }}>
       <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between' }}>
@@ -96,7 +103,7 @@ const Page = () => {
           orders.map((item, i) => {
             return (
               <Grid item xs={1} key={item.id}>
-                <OrderItem item={item} />
+                <OrderItem item={item} onChangeStatus={handleChangeStatus} />
               </Grid>
             )
           })}

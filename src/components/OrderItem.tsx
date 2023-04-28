@@ -1,12 +1,20 @@
 import { OrderStatus } from '@/types/OrderStatus'
 import { Order } from '@/types/order'
-import { Box, Button, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from '@mui/material'
 
 type Props = {
   item: Order
+  onChangeStatus: (id: number, newStatus: OrderStatus) => void
 }
 
-export function OrderItem({ item }: Props) {
+export function OrderItem({ item, onChangeStatus }: Props) {
   function getStatusBackground(status: OrderStatus) {
     const statuses = {
       preparing: '#2787BA',
@@ -15,6 +23,11 @@ export function OrderItem({ item }: Props) {
     }
     return statuses[status]
   }
+
+  const handleStatusChange = (event: SelectChangeEvent) => {
+    onChangeStatus(item.id, event.target.value as OrderStatus)
+  }
+
   return (
     <Box
       sx={{
@@ -45,6 +58,18 @@ export function OrderItem({ item }: Props) {
             #{item.id}
           </Typography>
         </Box>
+      </Box>
+      <Box sx={{ backgroundColor: '#EEE', p: 1 }}>
+        <Select
+          variant="standard"
+          value={item.status}
+          fullWidth
+          onChange={handleStatusChange}
+        >
+          <MenuItem value="preparing">Preparando</MenuItem>
+          <MenuItem value="sent">Enviado</MenuItem>
+          <MenuItem value="delivered">Entregue</MenuItem>
+        </Select>
       </Box>
     </Box>
   )
