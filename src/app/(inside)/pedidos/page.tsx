@@ -1,4 +1,7 @@
 'use client'
+import { OrderItem } from '@/components/OrderItem'
+import { api } from '@/libs/api'
+import { Order } from '@/types/order'
 import { Refresh, Search } from '@mui/icons-material'
 import {
   Box,
@@ -10,11 +13,25 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Page = () => {
   const [searchInput, setSearchInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [orders, setOrders] = useState<Order[]>([])
+
+  async function getOrders() {
+    setSearchInput('')
+    setOrders([])
+    setLoading(true)
+    const orderList: Order[] = await api.getOrders()
+    setOrders(orderList)
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    getOrders()
+  }, [])
   function handleSearchKey() {}
   function handleSearchInput() {}
   return (
@@ -28,6 +45,7 @@ const Page = () => {
             <CircularProgress size={24} />
           ) : (
             <Button
+              onClick={getOrders}
               sx={{ justifyContent: { xs: 'flex-start', sm: 'center' } }}
               size="small"
             >
@@ -74,6 +92,14 @@ const Page = () => {
             </Grid>
           </>
         )}
+        {!loading &&
+          orders.map((item, i) => {
+            return (
+              <Grid item xs={1} key={item.id}>
+                <OrderItem item={item} />
+              </Grid>
+            )
+          })}
       </Grid>
     </Box>
   )
