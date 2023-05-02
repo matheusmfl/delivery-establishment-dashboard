@@ -1,6 +1,6 @@
 import { OrderStatus } from '@/types/OrderStatus'
 import { Product } from '@/types/Product'
-import { Order } from '@/types/order'
+import { Order } from '@/types/Order'
 
 const tmpProduct: Product = {
   id: 999,
@@ -56,7 +56,7 @@ export const api = {
     return new Promise((resolve) => {
       setTimeout(() => {
         const orders: Order[] = []
-        const statuses: OrderStatus[] = ['preparing', 'sent', 'delivery']
+        const statuses: OrderStatus[] = ['preparing', 'sent', 'delivered']
 
         // TODO: Montar array de pedidos
 

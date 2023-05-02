@@ -1,5 +1,5 @@
 import { OrderStatus } from '@/types/OrderStatus'
-import { Order } from '@/types/order'
+import { Order } from '@/types/Order'
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material'
+import { dateFormat } from '@/utils/DateFormat'
 
 type Props = {
   item: Order
@@ -47,7 +48,7 @@ export function OrderItem({ item, onChangeStatus }: Props) {
         }}
       >
         <Box>
-          <Typography component="p">{item.orderDate}</Typography>
+          <Typography component="p">{dateFormat(item.orderDate)}</Typography>
           <Typography component="p">{item.userName}</Typography>
           <Button size="small" sx={{ color: '#FFF' }}>
             Imprimir
@@ -70,6 +71,22 @@ export function OrderItem({ item, onChangeStatus }: Props) {
           <MenuItem value="sent">Enviado</MenuItem>
           <MenuItem value="delivered">Entregue</MenuItem>
         </Select>
+      </Box>
+      <Box sx={{ p: 1, backgroundColor: '#FFF' }}>
+        {item.products.map((productItem, index) => {
+          return (
+            <Typography
+              sx={{
+                p: 1,
+                color: '#000',
+                fontWeight: 'bold',
+                borderBottom: '1px solid #ccc',
+              }}
+              component="p"
+              key={index}
+            >{`${productItem.quantity}x ${productItem.product.productName}`}</Typography>
+          )
+        })}
       </Box>
     </Box>
   )
